@@ -67,19 +67,27 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
   }, [params.slug]);
 
   if (isLoading) {
-    return <div className="text-center py-8">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#1f2937]">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="text-center py-8 text-red-500">{error}</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#1f2937]">
+        <div className="text-center text-red-500">{error}</div>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12">
-      <main className="container mx-auto px-4">
+    <div className="min-h-screen bg-gray-50">
+      <main className="container mx-auto px-4 py-6">
         <button
           onClick={() => router.back()}
-          className="mb-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-300 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+          className="mb-6 inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg text-gray-200 bg-[#1f2937] hover:bg-gray-700 transition-colors duration-200"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -96,71 +104,72 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
           Back
         </button>
 
-        <h1 className="text-3xl font-bold mb-8">{category?.name}</h1>
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-3xl font-bold mb-4 text-gray-900">
+            {category?.name}
+          </h1>
+          <p className="text-gray-600 mb-8">{category?.description}</p>
 
-        <p className="text-gray-600 mb-8">{category?.description}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {services.map((service, index) => (
+              <a
+                key={`service-${index}`}
+                href={`/${service.Slug.value}`}
+                className="group bg-white rounded-xl shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden flex flex-col h-full border border-gray-100"
+              >
+                {service.Image && (
+                  <div className="relative w-full pt-[56.25%] overflow-hidden">
+                    <Image
+                      src={service.Image.value}
+                      alt={service.Name.value}
+                      fill
+                      style={{ objectFit: "cover" }}
+                      className="transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      priority={index < 3}
+                    />
+                  </div>
+                )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service, index) => (
-            <Link
-              href={`/${service.Slug.value}`}
-              key={service.id}
-              className="block bg-white rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-xl h-full flex flex-col overflow-hidden"
-            >
-              {service.Image && (
-                <div className="relative w-full h-40">
-                  <Image
-                    src={service.Image.value}
-                    alt={service.Name.value}
-                    fill
-                    style={{ objectFit: "cover" }}
-                    className="w-full h-full"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    priority={index < 3}
-                  />
-                </div>
-              )}
+                <div className="p-6 flex-grow flex flex-col">
+                  <h3 className="font-semibold text-xl mb-3 text-gray-900">
+                    {service.Name.value}
+                  </h3>
 
-              <div className="p-6 flex-grow flex flex-col">
-                <h3 className="font-semibold text-lg mb-2">
-                  {service.Name.value}
-                </h3>
+                  <p className="text-gray-600 text-sm mb-4 flex-grow">
+                    {truncateText(service.Description.value, 120)}
+                  </p>
 
-                <p className="text-sm text-gray-600 mb-4">
-                  {truncateText(service.Description.value, 100)}
-                </p>
-
-                {service.Tags &&
-                  service.Tags.value &&
-                  service.Tags.value.length > 0 && (
-                    <div className="mt-auto flex flex-wrap gap-1">
+                  {service.Tags?.value?.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-auto">
                       {service.Tags.value
                         .slice(0, 3)
                         .map((tag: string, tagIndex: number) => (
                           <span
                             key={tagIndex}
-                            className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-600"
+                            className="px-3 py-1 text-sm bg-gray-50 text-gray-600 rounded-full border border-gray-100"
                           >
                             {tag}
                           </span>
                         ))}
                       {service.Tags.value.length > 3 && (
-                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-600">
+                        <span className="px-3 py-1 text-sm bg-gray-50 text-gray-600 rounded-full border border-gray-100">
                           +{service.Tags.value.length - 3}
                         </span>
                       )}
                     </div>
                   )}
-              </div>
-            </Link>
-          ))}
-        </div>
+                </div>
+              </a>
+            ))}
+          </div>
 
-        {services.length === 0 && (
-          <p className="text-center mt-8">
-            No services found in this category.
-          </p>
-        )}
+          {services.length === 0 && (
+            <p className="text-center mt-8 text-gray-600">
+              No services found in this category.
+            </p>
+          )}
+        </div>
       </main>
     </div>
   );

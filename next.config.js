@@ -11,7 +11,7 @@ const nextConfig = {
     ],
   },
   env: {
-    NEXT_PUBLIC_BASE_URL: "https://facelessvideolist.com", // Replace with your actual domain
+    NEXT_PUBLIC_BASE_URL: "https://techfirst.se", // Replace with your actual domain
   },
 };
 

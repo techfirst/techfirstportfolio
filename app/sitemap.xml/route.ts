@@ -19,8 +19,7 @@ export async function GET() {
     const services = servicesResponse.entries;
     const categories = categoriesResponse;
 
-    const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL || "https://facelessvideolist.com"; // Replace with your actual domain
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://techfirst.se"; // Replace with your actual domain
 
     const currentDate = new Date().toISOString(); // Full ISO 8601 format
 

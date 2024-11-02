@@ -35,7 +35,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="min-h-screen flex items-center justify-center bg-[#1f2937]">
         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
@@ -46,11 +46,11 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12">
-      <main className="container mx-auto px-4">
+    <div className="min-h-screen bg-gray-50">
+      <main className="container mx-auto px-4 py-6">
         <button
           onClick={() => router.back()}
-          className="mb-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-orange-300 hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+          className="mb-6 inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg text-gray-200 bg-[#1f2937] hover:bg-gray-700 transition-colors duration-200"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +67,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
           Back
         </button>
 
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden max-w-4xl mx-auto">
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden max-w-4xl mx-auto border border-gray-100">
           <div className="relative h-64 sm:h-80 md:h-96">
             <Image
               src={service.Image.value}
@@ -79,23 +79,21 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
             />
           </div>
           <div className="p-8">
-            <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-gray-800">
+            <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-gray-900">
               {service.Name.value}
             </h1>
-            {service.Tags &&
-              service.Tags.value &&
-              service.Tags.value.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {service.Tags.value.map((tag: string, tagIndex: number) => (
-                    <span
-                      key={tagIndex}
-                      className="inline-flex items-center px-3 py-1.5 rounded-full text-sm bg-gray-100 text-gray-700"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
+            {service.Tags?.value?.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-6">
+                {service.Tags.value.map((tag: string, tagIndex: number) => (
+                  <span
+                    key={tagIndex}
+                    className="px-3 py-1 text-sm bg-gray-50 text-gray-600 rounded-full border border-gray-100"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
             <div className="prose prose-lg max-w-none text-gray-600 mb-8">
               <p>{service.Description.value}</p>
             </div>
@@ -103,7 +101,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
               href={service.Url.value}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-orange-300 text-white font-bold py-3 px-6 rounded-lg hover:bg-orange-400 transition duration-300 ease-in-out"
+              className="inline-block bg-blue-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-200"
             >
               Visit {service.Name.value}
             </a>
