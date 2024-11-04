@@ -814,6 +814,87 @@ export default function Component() {
             ))}
           </div>
 
+          {/* Directory Network */}
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold mb-4 text-gray-100">
+              Directory Network
+            </h3>
+            <div className="space-y-2 bg-gray-800/50 rounded-lg p-3">
+              <a
+                href="https://facelessvideolist.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-gray-300 hover:text-white transition-colors duration-200 flex items-center gap-2"
+              >
+                <svg
+                  className="w-3 h-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+                Faceless Video List
+              </a>
+              <a
+                href="https://texttospeechlist.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-gray-300 hover:text-white transition-colors duration-200 flex items-center gap-2"
+              >
+                <svg
+                  className="w-3 h-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+                Text to Speech List
+              </a>
+            </div>
+          </div>
+
+          {/* Connect */}
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold mb-4 text-gray-100">
+              Connect
+            </h3>
+            <div className="space-y-2 bg-gray-800/50 rounded-lg p-3">
+              <a
+                href="https://www.linkedin.com/in/stellan-bergstr%C3%B6m-34522162/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-gray-300 hover:text-white transition-colors duration-200 flex items-center gap-2"
+              >
+                <svg
+                  className="w-3 h-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+                LinkedIn
+              </a>
+            </div>
+          </div>
+
           {/* Active Filters */}
           {(Object.keys(activeFilters).length > 0 ||
             (selectedCategories.length > 0 && isCategoryMapReady)) && (
