@@ -26,7 +26,7 @@ import * as AccordionPrimitive from "@radix-ui/react-accordion";
 
 import clsx from "clsx";
 
-import { truncateText } from "@/lib/utils"; // You'll need to create this utility function
+import { truncateText } from "@/lib/utils";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -42,7 +42,8 @@ import {
 
 import CategoryButtons from "./components/CategoryButtons";
 
-// Add these interfaces at the top of your file
+import { getFieldValue } from '@/lib/helpers';
+
 interface Filter {
   fieldName: string;
   fieldType: string;
@@ -57,63 +58,6 @@ interface FilterOption {
 const cn = (...classes: (string | undefined)[]) => {
   return clsx(classes);
 };
-
-const Accordion = AccordionPrimitive.Root;
-
-const AccordionItem = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
->(({ className, ...props }, ref) => (
-  <AccordionPrimitive.Item
-    ref={ref}
-    className={cn("border-b", className)}
-    {...props}
-  />
-));
-
-AccordionItem.displayName = "AccordionItem";
-
-const AccordionTrigger = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Header className="flex">
-    <AccordionPrimitive.Trigger
-      ref={ref}
-      className={cn(
-        "flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
-
-        className
-      )}
-      {...props}
-    >
-      {children}
-
-      <ChevronDown className="h-4 w-4 transition-transform duration-200" />
-    </AccordionPrimitive.Trigger>
-  </AccordionPrimitive.Header>
-));
-
-AccordionTrigger.displayName = "AccordionTrigger";
-
-const AccordionContent = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Content
-    ref={ref}
-    className={cn(
-      "overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
-
-      className
-    )}
-    {...props}
-  >
-    <div className="pb-4 pt-0">{children}</div>
-  </AccordionPrimitive.Content>
-));
-
-AccordionContent.displayName = "AccordionContent";
 
 export default function Component() {
   const router = useRouter();
@@ -954,17 +898,17 @@ export default function Component() {
             {visibleServices.map((service, index) => (
               <a
                 key={`service-${index}`}
-                href={`/${service.Slug.value}`}
+                href={`/${getFieldValue(service, 'Slug')}`}
                 className="group bg-white rounded-xl shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden flex flex-col h-full border border-gray-100"
               >
-                {service.Image && service.Image.value && (
+                {service.Image && (
                   <div className="relative w-full pt-[56.25%] overflow-hidden">
                     <Image
-                      src={service.Image.value}
-                      alt={service.Name.value}
+                      src={getFieldValue(service, 'Image')}
+                      alt={getFieldValue(service, 'Name')}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="object-cover"
                       priority={index < 6}
                     />
                   </div>
@@ -972,27 +916,12 @@ export default function Component() {
 
                 <div className="p-6 flex-grow flex flex-col">
                   <h3 className="font-semibold text-xl mb-3 text-gray-900">
-                    {service.Name.value}
+                    {getFieldValue(service, 'Name')}
                   </h3>
 
                   <p className="text-gray-600 text-sm mb-4 flex-grow">
-                    {truncateText(service.Description.value, 120)}
+                    {truncateText(getFieldValue(service, 'Description'), 120)}
                   </p>
-
-                  {service.Tags?.value?.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-auto">
-                      {service.Tags.value
-                        .slice(0, 3)
-                        .map((tag: string, tagIndex: number) => (
-                          <span
-                            key={tagIndex}
-                            className="px-3 py-1 text-sm bg-gray-50 text-gray-600 rounded-full border border-gray-100"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                    </div>
-                  )}
                 </div>
               </a>
             ))}
