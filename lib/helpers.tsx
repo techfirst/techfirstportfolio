@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 let isAlertShown = false;
 
 export const getFieldValue = (service: any, fieldName: string): string => {
