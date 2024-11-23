@@ -904,8 +904,8 @@ export default function Component() {
                 {service.Image && (
                   <div className="relative w-full pt-[56.25%] overflow-hidden">
                     <Image
-                      src={getFieldValue(service, 'Image')}
-                      alt={getFieldValue(service, 'Name')}
+                      src={String(getFieldValue(service, 'Image'))}
+                      alt={String(getFieldValue(service, 'Name'))}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover"
@@ -920,8 +920,29 @@ export default function Component() {
                   </h3>
 
                   <p className="text-gray-600 text-sm mb-4 flex-grow">
-                    {truncateText(getFieldValue(service, 'Description'), 120)}
+                    {truncateText(String(getFieldValue(service, 'Description')), 120)}
                   </p>
+
+                  {/* Add Tags section */}
+                  {getFieldValue(service, 'Tags') && Array.isArray(getFieldValue(service, 'Tags')) && (
+                    <div className="mt-auto flex flex-wrap gap-1">
+                      {(getFieldValue(service, 'Tags') as string[])
+                        .slice(0, 3)
+                        .map((tag: string, tagIndex: number) => (
+                          <span
+                            key={tagIndex}
+                            className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-600"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      {getFieldValue(service, 'Tags').length > 3 && (
+                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-600">
+                          +{getFieldValue(service, 'Tags').length - 3}
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
               </a>
             ))}

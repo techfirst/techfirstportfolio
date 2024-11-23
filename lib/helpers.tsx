@@ -1,28 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-let isAlertShown = false;
+export const getFieldValue = (service: any, fieldName: string): string | string[] => {
+  const isArrayField = fieldName === 'Tags2' || 
+                      Array.isArray(service?.[fieldName]?.value) || 
+                      Array.isArray(service?.[fieldName]);
 
-export const getFieldValue = (service: any, fieldName: string): string => {
-  if (!service || !service[fieldName] || service[fieldName].value === undefined) {
-    if (!isAlertShown) {
-      isAlertShown = true;
-      setTimeout(() => {
-        alert(`Missing field: ${fieldName}`);
-      }, 100);
-    }
-    return `[Missing ${fieldName}]`;
+  if (!service || !service[fieldName]) {
+    return isArrayField ? [`[MISSING FIELD ${fieldName}]`] : `[MISSING FIELD ${fieldName}]`;
   }
-  return service[fieldName].value;
+
+  const value = service[fieldName].value !== undefined 
+    ? service[fieldName].value 
+    : service[fieldName];
+
+  if (isArrayField) {
+    return Array.isArray(value) ? value : [];
+  }
+
+  return value;
 };
 
 export const getFieldType = (service: any, fieldName: string): string => {
   if (!service || !service[fieldName] || service[fieldName].type === undefined) {
-    if (!isAlertShown) {
-      isAlertShown = true;
-      setTimeout(() => {
-        alert(`Missing  field type: ${fieldName}`);
-      }, 100);
-    }
     return 'unknown';
   }
   return service[fieldName].type;
